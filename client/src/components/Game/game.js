@@ -105,5 +105,39 @@ export function loadGame() {
         
         drawStartingPositions(Player.allInstances);
 
+        let draw = () => {
+            if(Player.allInstances.filter(p => !p.key).length === 0) {
+                // in-game logic
+                Player.allInstances.forEach(p => {
+                    if(p.key) {
+                        p.direction = p.key;
+
+                        context.fillStyle = p.color;
+                        context.fillRect(p.x, p.y, unit, unit);
+                        context.strokeStyle = 'black';
+                        context.strokeRect(p.x, p.y, unit, unit);
+
+                        if(!playableCells.has(`${p.x}x${p.y}y`) && p.dead == false) {
+                            p.dead = true;
+                            p.direction = '';
+                            // playerCount -= 1;
+                        }
+
+                        playableCells.delete(`${p.x}x${p.y}y`);
+
+                        if (!p.dead) {
+                            if (p.direction == "LEFT") p.x -= unit;
+                            if (p.direction == "UP") p.y -= unit;
+                            if (p.direction == "RIGHT") p.x += unit;
+                            if (p.direction == "DOWN") p.y += unit;
+                        };
+
+                    }
+                });
+            }
+        };
+
+        const game = setInterval(draw, 100);
+
     }, 500);
 }
