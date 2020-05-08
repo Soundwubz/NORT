@@ -1,6 +1,5 @@
 import React from 'react';
 import MenuItem from './MenuItem';
-import {useHistory} from 'react-router-dom';
 
 class GameMenu extends React.Component {
 
@@ -12,10 +11,10 @@ class GameMenu extends React.Component {
                         <div className="card">
                             <div className="card-body">
                                 <ul className="list-group">
-                                    <MenuItem active={false} path="/game" onClick={this.handleMenuClick}>
+                                    <MenuItem active={false} path="/game">
                                         play game
                                     </MenuItem>
-                                    <MenuItem active={false} path="/settings" onClick={this.handleMenuClick}>
+                                    <MenuItem active={false} path="/settings">
                                         settings
                                     </MenuItem>
                                 </ul>
