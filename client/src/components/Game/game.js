@@ -14,7 +14,7 @@ class Player {
     };
 }
 
-export function loadGame() {
+export function loadGame(maxPlayCount, gameType) {
     setTimeout(() => {
         const canvas = document.getElementById('nort');
         const context = canvas.getContext('2d');
@@ -23,7 +23,7 @@ export function loadGame() {
 
         Player.allInstances = [];
 
-        let p1 = new Player(unit * 6, unit * 6, '#75A4FF');
+        let p1 = new Player(unit * 6, unit * 6, '#75A4FF'); // initialize player 1
 
         let setKey = (key, player, up, right, down, left) => {
             switch (key) {
@@ -62,7 +62,7 @@ export function loadGame() {
             setKey(key, p1, 38, 39, 40, 37); // arrow keys
         };
 
-        document.addEventListener('keydown', handleKeyPress);
+        document.addEventListener('keydown', handleKeyPress); // add keydown event listener
 
         let getPlayableCells = (canvas, unit) => {
             let playableCells = new Set();
@@ -71,7 +71,7 @@ export function loadGame() {
                 playableCells.add(`${i * unit}x${j * unit}y`);
                 };
             };
-            return playableCells;
+            return playableCells; // returns all playable cells
         };
 
         let playableCells = getPlayableCells(canvas, unit);
@@ -101,9 +101,56 @@ export function loadGame() {
               context.strokeStyle = 'black';
               context.strokeRect(p.x, p.y, unit, unit);
             });
+            console.log(playableCells.size);
         };
         
         drawStartingPositions(Player.allInstances);
+
+        let getRandInt = (min, max) => {
+            return Math.floor(Math.random() * (max - min) ) + min;
+        }
+
+        let validObstacle = (x, y, players) => {
+            let valid
+            players.forEach(p => {
+                let px = parseInt(p.x);
+                let py = parseInt(p.y);
+                if (
+                    (x <= px - 10 || x >= px + 10) && 
+                    (y <= py - 10 || y >= py + 10)
+                ) {
+                    valid = true;
+                } else {
+                    valid = false;
+                }
+            });
+            if(valid) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        let drawObstacles = (players) => {
+            if(maxPlayCount === 1) {
+                for(let i = 0; i < 6; i++) {
+                    let xPos = getRandInt(0, 750);
+                    let yPos = getRandInt(0, 750);
+                    console.log(validObstacle(xPos, yPos, Player.allInstances));
+                    // if(validObstacle(xPos, yPos)) {
+                        context.fillStyle = "grey";
+                        context.fillRect(xPos, yPos, unit, unit);
+                        context.strokeStyle = 'black';
+                        context.strokeRect(xPos, yPos, unit, unit);
+                        console.log('obstacle created at x:', xPos, ' y:', yPos);
+                    // }                    
+                }
+            }
+        }
+
+        drawObstacles();
+
+        let playerCount = maxPlayCount;
 
         let draw = () => {
             if(Player.allInstances.filter(p => !p.key).length === 0) {
@@ -120,7 +167,7 @@ export function loadGame() {
                         if(!playableCells.has(`${p.x}x${p.y}y`) && p.dead == false) {
                             p.dead = true;
                             p.direction = '';
-                            // playerCount -= 1;
+                            playerCount -= 1;
                         }
 
                         playableCells.delete(`${p.x}x${p.y}y`);
@@ -131,7 +178,23 @@ export function loadGame() {
                             if (p.direction == "RIGHT") p.x += unit;
                             if (p.direction == "DOWN") p.y += unit;
                         };
+                    }
 
+                    let outcome;
+
+                    if (playerCount === maxPlayCount - 1) {
+                        if(gameType === "single") { // single player
+                            outcome = `You have lost!`;
+                        } else { // multiplayer
+                            const alivePlayers = Player.allInstances.filter(p => p.dead === false);
+                            outcome = `Player ${alivePlayers[0]._id} wins!`;
+                        }
+                    } else if (playerCount === 0) {
+                        outcome = 'Draw!';
+                    }
+                    if (outcome) {
+                        alert(outcome);
+                        clearInterval(game);
                     }
                 });
             }

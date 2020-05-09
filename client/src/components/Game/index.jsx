@@ -11,8 +11,13 @@ class Game extends React.Component {
         outlineOffset: "5px"
     }
 
+    state = {
+        playerCount: 1,
+        gameType: this.props.type
+    }
+
     componentDidMount() {
-        loadGame();
+        loadGame(this.state.playerCount,);
     }
     render() {
         return(
