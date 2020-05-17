@@ -8,16 +8,22 @@ const express = require("express"),
  cors = require('cors'),
  PORT = process.env.PORT || 3001;
 
-require('./passport')
+ require('./passport');
 
+let corsOpt;
+if(PORT === 3001) {
+  corsOpt = {origin: true}
+} else {
+  corsOpt = {origin: false}
+}
 // Define middleware here
-app.use(cors({origin: true}));
+app.use(cors(corsOpt));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({ secret: "cats", maxAge: 24 * 60 * 60 * 1000 }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({ secret: "tron", resave: false, saveUninitialized: false, maxAge: 24 * 60 * 60 * 1000 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.urlencoded({ extended: false }));
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -29,5 +35,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nort");
 
 // Start the API server
 app.listen(PORT, function() {
+  console.log(`allow-origin: ${corsOpt.origin}`);
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
+

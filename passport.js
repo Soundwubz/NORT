@@ -4,7 +4,7 @@ var passport = require('passport'),
 var db = require('./models');
 
 passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    done(null, {_id: user._id});
 });
 
 passport.deserializeUser(async (id, done) => {
