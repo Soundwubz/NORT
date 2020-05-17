@@ -1,15 +1,11 @@
-module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define("User", {
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-              len: [1]
-            }
-        }
-    }, {timestamps: false});
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-    return User;
-}
+const userSchema = new Schema({
+    username: { type: String, required: true },
+    password: { type: String, required: true }
+});
 
-// continue building model, then test 
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

@@ -1,11 +1,14 @@
 import React from 'react';
 import {Input, FormBtn} from '../Form';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
-class Login extends React.Component {
+class Signup extends React.Component {
     state = {
         username: "",
         password: "",
-        localApiUrl: "http://localhost:3001/api/user"
+        localApiUrl: "http://localhost:3001/api/user",
+        navigate: false
     }
 
     handleInputChange = event => {
@@ -18,16 +21,35 @@ class Login extends React.Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if(this.state.username && this.state.password) {
-            console.log(this.state.username);
+            axios.post(this.state.localApiUrl, {
+                username: this.state.username,
+                password: this.state.password
+            }).then(response => {
+                console.log(response);
+                if(response.data) {
+                    console.log('sign up success');
+                    this.setState({navigate: true});
+                } else {
+                    console.log('signup error');
+                }
+            }).catch(err => {
+                console.log('server error');
+                console.error(err);
+            })
         }
     }
 
     render() {
+        if(this.state.navigate === true) {
+            return(
+                <Redirect to={'/login'}/>
+            )
+        } 
         return (
             <div className="container">
                 <div className="row">
                     <div className="col">
-                        <h1>Login</h1>
+                        <h1>Sign Up</h1>
                         <form>
                             <Input
                                 value={this.state.username}
@@ -56,4 +78,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Signup;

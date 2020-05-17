@@ -3,13 +3,18 @@ const express = require("express"),
  app = express(),
  bodyParser = require("body-parser"),
  session = require('express-session'),
- passport = require('./passport'),
+ passport = require('passport'),
+ mongoose = require('mongoose'),
+ cors = require('cors'),
  PORT = process.env.PORT || 3001;
 
+require('./passport')
+
 // Define middleware here
+app.use(cors({origin: true}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({ secret: "cats" }));
+app.use(session({ secret: "cats", maxAge: 24 * 60 * 60 * 1000 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -19,6 +24,8 @@ if (process.env.NODE_ENV === "production") {
 }
 // Add routes, both API and view
 app.use(routes);
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nort");
 
 // Start the API server
 app.listen(PORT, function() {

@@ -5,6 +5,8 @@ import MainMenu from './components/MainMenu';
 import Settings from './components/Settings';
 import Game from './components/Game';
 import GameMenu from './components/GameMenu';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           (props) => <Game {...props} type={'single'} />
         }/>
         <Route exact path="/settings" component={Settings}/>
+        <Route exact path="/login" component={Login}/>
+        <Route exact path="/signup" component={Signup}/>
       </Switch>
     </Router>
   );
