@@ -8,6 +8,7 @@ const express = require("express"),
  cors = require('cors'),
  PORT = process.env.PORT || 3001;
 
+ require('dotenv').config();
  require('./passport');
 
 let corsOpt;

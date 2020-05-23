@@ -1,13 +1,11 @@
 import React from 'react';
 import {Input, FormBtn} from '../Form';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 class Signup extends React.Component {
     state = {
         username: "",
         password: "",
-        localApiUrl: "http://localhost:3001/api/user",
         navigate: false
     }
 
@@ -21,21 +19,29 @@ class Signup extends React.Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if(this.state.username && this.state.password) {
-            axios.post(this.state.localApiUrl, {
-                username: this.state.username,
-                password: this.state.password
-            }).then(response => {
-                console.log(response);
-                if(response.data) {
-                    console.log('sign up success');
-                    this.setState({navigate: true});
-                } else {
-                    console.log('signup error');
-                }
-            }).catch(err => {
-                console.log('server error');
-                console.error(err);
-            })
+            fetch("/api/user/signup", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password
+                })
+            }).then(res => res.json())
+                .then(json => {
+                    console.log('json', json);
+                    if(json.success) {
+                        this.setState({
+                            username: "",
+                            password: "",
+                            navigate: true    
+                        });
+                    } else {
+                        console.log(json.message);
+                        console.error(json.err)
+                    }
+                })
         }
     }
 

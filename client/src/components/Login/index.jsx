@@ -1,6 +1,6 @@
 import React from 'react';
 import {Input, FormBtn} from '../Form';
-import axios from 'axios';
+import {setInStorage} from '../../utils/storage';
 import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
@@ -22,20 +22,20 @@ class Login extends React.Component {
         event.preventDefault();
         if(this.state.username && this.state.password) {
             console.log(this.state.username);
-            axios.post('/api/login', {
-                username: this.state.username,
-                password: this.state.password
-            }).then(response => {
-                console.log('login response:');
-                console.log(response);
-                if (response.status == 200) {
-                    this.props.updateUser({
-                        loggedIn: true,
-                        username: response.data.username
-                    })
-                    this.setState({
-                        navigate: true
-                    })
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password
+                })
+            }).then(res => res.json()).then(json => {
+                console.log('json',json);
+                if(json.success) {
+                    setInStorage('nort', { token: json.token });
+                    this.setState({navigate: true});
                 }
             })
         }

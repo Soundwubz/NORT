@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"),
     bcrypt = require('bcryptjs'),
+    salt = bcrypt.genSaltSync(8),
     Schema = mongoose.Schema;
 
 const userSchema = new Schema({
