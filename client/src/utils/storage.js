@@ -23,13 +23,14 @@ export function setInStorage(key, obj) {
 export function verifyToken(url, obj) {
   if (obj && obj.token) {
         const {token} = obj;
-        fetch(url + token).then(res => res.json()).then(json => {
+        const verified = fetch(url + token).then(res => res.json()).then(json => {
             if(json.success) {
                 return true;
             } else {
               return false;
             }
-        })
+        });
+        return verified;
   } else {
     return false;
   }

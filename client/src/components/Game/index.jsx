@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import {getFromStorage, verifyToken} from '../../utils/storage';
 
 class Player {
     constructor(x, y, color) {
@@ -28,8 +29,9 @@ class Game extends React.Component {
     state = {
         playerCount: 1,
         gameType: this.props.type,
+        timer: 0,
         navigate: false,
-        timer: 0
+        verified: false
     }
 
     loadGame = (maxPlayCount, gameType) => {
@@ -187,7 +189,7 @@ class Game extends React.Component {
                         context.strokeStyle = 'black';
                         context.strokeRect(p.x, p.y, unit, unit);
 
-                        if(!playableCells.has(`${p.x}x${p.y}y`) && p.dead == false) {
+                        if(!playableCells.has(`${p.x}x${p.y}y`) && p.dead === false) {
                             p.dead = true;
                             p.direction = '';
                             playerCount -= 1;
@@ -196,10 +198,10 @@ class Game extends React.Component {
                         playableCells.delete(`${p.x}x${p.y}y`);
 
                         if (!p.dead) {
-                            if (p.direction == "LEFT") p.x -= unit;
-                            if (p.direction == "UP") p.y -= unit;
-                            if (p.direction == "RIGHT") p.x += unit;
-                            if (p.direction == "DOWN") p.y += unit;
+                            if (p.direction === "LEFT") p.x -= unit;
+                            if (p.direction === "UP") p.y -= unit;
+                            if (p.direction === "RIGHT") p.x += unit;
+                            if (p.direction === "DOWN") p.y += unit;
                         };
                     }
 
@@ -238,29 +240,49 @@ class Game extends React.Component {
 
 
     componentDidMount() {
-        this.loadGame(this.state.playerCount, this.state.gameType);
+        // verify token and set the global token state
+        const obj = getFromStorage('nort');
+        if(verifyToken('/api/user/verify?token=', obj)) {
+            this.setState({
+                token: obj.token,
+                verified: true
+            });
+            // load game board 
+            setTimeout(() => {
+                this.loadGame(this.state.playerCount, this.state.gameType);
+            }, 500);
+        } else {
+            this.setState({
+                navigate: true
+            });
+        }
     }
 
     render() {
-        if(this.state.navigate === true) {
+        if(this.state.verified === true) {
             return(
-                <Redirect to={'/game'}/>
-            )
-        }
-        return(
-            <div>
-                <div className="container game">
-                    <div className="row">
-                        <div className="col-2">
-                            <p className="text-white">Time: {this.state.timer}</p>
-                        </div>
-                        <div className="col">
-                            <canvas id="nort" width="750" height="750" style={this.nortStyle}></canvas>
+                <div>
+                    <div className="container game">
+                        <div className="row">
+                            <div className="col-2">
+                                <p className="text-white">Time: {this.state.timer}</p>
+                            </div>
+                            <div className="col">
+                                <canvas id="nort" width="750" height="750" style={this.nortStyle}></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        } else if(this.state.verified === false && this.state.navigate === true) {
+            return ( 
+                <Redirect to={'/login'}/> 
+            )
+        } else {
+            return (
+                <h1>Loading</h1>
+            )
+        }
     }
 }
 

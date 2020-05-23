@@ -7,23 +7,15 @@ import Game from './components/Game';
 import GameMenu from './components/GameMenu';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import axios from 'axios';
 
 class App extends React.Component {
-
-  componentDidMount() {
-    // this.getUser()
-  }
 
   render() {
     return (
       <Router>
         <Header></Header>
         <Switch>
-          <Route exact path="/" render={
-            (props) => <MainMenu {...props} 
-            // loggedIn={this.state.loggedIn} 
-            />
+          <Route exact path="/" component={MainMenu}/>
           }/>
           <Route exact path="/game" component={GameMenu}/>
           <Route exact path="/game/s" render={
