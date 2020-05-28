@@ -25,13 +25,36 @@ export function verifyToken(url, obj) {
         const {token} = obj;
         const verified = fetch(url + token).then(res => res.json()).then(json => {
             if(json.success) {
-                return true;
+                return {
+                  success: true,
+                  userId: json.userId
+                };
             } else {
-              return false;
+              return {
+                success: false
+              };
             }
         });
         return verified;
   } else {
-    return false;
+    return {
+      success: false
+    };
+  }
+}
+export function getUserId(token) {
+  if(token) {
+    const userId = fetch('/api/user?token=' + token).then(res => res.json()).then(json => {
+      if(json.success) {
+        return json.userId
+      } else {
+        console.log(json.error)
+        return null
+      }
+    });
+    return userId
+  } else {
+    console.error('No token provided');
+    return null
   }
 }

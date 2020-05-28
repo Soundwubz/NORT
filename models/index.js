@@ -1,4 +1,5 @@
 module.exports = {
   User: require('./user'),
-  UserSession: require('./userSession')
+  UserSession: require('./userSession'),
+  TopTime: require('./topTime')
 }

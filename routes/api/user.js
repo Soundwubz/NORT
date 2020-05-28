@@ -48,10 +48,10 @@ router.route("/verify").get(
   (req, res, next) => {
     const {token} = req.query;
     
-    db.UserSession.find({
+    db.UserSession.findOne({
       _id: token,
       isDeleted: false
-    }, (err, sessions) => {
+    }, (err, session) => {
       if (err) {
         return res.send({
           success: false,
@@ -59,19 +59,43 @@ router.route("/verify").get(
           err: err
         });
       }      
-      if (sessions.length != 1) {
-        return res.send({
-          success: false,
-          message: 'Error: Invalid'
-        });
-      } else {
+      // if (sessions.length != 1) {
+      //   return res.send({
+      //     success: false,
+      //     message: 'Error: Invalid'
+      //   });
+      // } else {
         // DO ACTION
         return res.send({
           success: true,
-          message: 'Good'
+          message: 'Good',
+          userId: session.userId
+        });
+      // }
+    });
+  }
+)
+
+// Matches with "/api/user"
+router.route('/').get(
+  (req, res, next)  => {
+    const {token} = req.query;
+    db.UserSession.findOne({_id: token, isDeleted: false}, (err, session) => {
+      if(err) {
+        res.send({
+          success: false,
+          message: 'Server Error',
+          error: err
         });
       }
-    });
+      console.log(session);
+      if(session) {
+        res.send({
+          success: true,
+          userId: session.userId
+        })
+      }
+    })
   }
 )
 

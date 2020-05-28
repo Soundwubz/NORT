@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import {getFromStorage, verifyToken} from '../../utils/storage';
+import {getFromStorage, verifyToken, getUserId} from '../../utils/storage';
 
 class Player {
     constructor(x, y, color) {
@@ -27,8 +27,10 @@ class Game extends React.Component {
     }
 
     state = {
+        userId: "",
         playerCount: 1,
         gameType: this.props.type,
+        difficulty: this.props.difficulty,
         timer: 0,
         navigate: false,
         verified: false
@@ -235,27 +237,50 @@ class Game extends React.Component {
     }
 
     endGame = () => {
-        this.setState({navigate: true});
+        console.log(this.state.userId)
+        let data = {
+            userId: this.state.userId,
+            time: this.state.timer,
+            difficulty: this.state.difficulty
+        }
+        fetch('/api/game/time', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json()).then(data => {
+            this.setState({navigate: true});
+        }).catch((error) => {
+            console.error('Error:', error);
+        })
     }
 
 
     componentDidMount() {
         // verify token and set the global token state
         const obj = getFromStorage('nort');
-        if(verifyToken('/api/user/verify?token=', obj)) {
-            this.setState({
-                token: obj.token,
-                verified: true
-            });
-            // load game board 
-            setTimeout(() => {
-                this.loadGame(this.state.playerCount, this.state.gameType);
-            }, 500);
-        } else {
-            this.setState({
-                navigate: true
-            });
-        }
+        
+        verifyToken('/api/user/verify?token=', obj).then(res => {
+            const {success, userId} = res;
+            if(success) {
+                // load game board 
+                setTimeout(() => {
+                    this.setState({
+                        token: obj.token,
+                        userId: userId,
+                        verified: true
+                    });
+                    this.loadGame(this.state.playerCount, this.state.gameType);
+                }, 500);
+            } else {
+                this.setState({
+                    navigate: true
+                })
+            }
+        }).catch(err => {
+            console.error('verifyToken:', err);
+        });
     }
 
     render() {
