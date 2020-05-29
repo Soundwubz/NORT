@@ -10,7 +10,8 @@
     "client": "cd client && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd client && npm run build",
-    "install": "cd client && npm install"
+    "install": "cd client && npm install",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "nodemon": "^2.0.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "query-string": "^6.12.1",
     "react-router-dom": "^5.1.2"
   }

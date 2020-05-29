@@ -2,6 +2,7 @@ const express = require("express"),
  routes = require("./routes"),
  app = express(),
  bodyParser = require("body-parser"),
+ path = require('path'),
  session = require('express-session'),
  passport = require('passport'),
  mongoose = require('mongoose'),
@@ -28,12 +29,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Add routes, both API and view
 app.use(routes);
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  })
-}
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nort", { useFindAndModify: false });
 

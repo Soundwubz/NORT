@@ -165,6 +165,9 @@ class Game extends React.Component {
                 case "hard":
                     obstacleNum = 35
                     break;
+                default:
+                    obstacleNum = 15
+                    break;
             }
             if(maxPlayCount === 1) {
                 for(let i = 0; i < obstacleNum; i++) {
