@@ -69,6 +69,17 @@ router.route('/time').post(
             }
         })
     }
+);
+
+router.route('/time').get(
+    (req, res, next) => {
+        db.TopTime.find((err, doc) => {
+            if(err) {
+                throw err;
+            }
+            res.send(doc)
+        })
+    }
 )
 
 module.exports = router;

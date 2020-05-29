@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import {getFromStorage, verifyToken, getUserId} from '../../utils/storage';
+import {getFromStorage, verifyToken} from '../../utils/storage';
+import Times from './Times';
 
 class Player {
     constructor(x, y, color) {
@@ -29,14 +30,14 @@ class Game extends React.Component {
     state = {
         userId: "",
         playerCount: 1,
-        gameType: this.props.type,
+        isSingle: this.props.isSingle,
         difficulty: this.props.difficulty,
         timer: 0,
         navigate: false,
         verified: false
     }
 
-    loadGame = (maxPlayCount, gameType) => {
+    loadGame = (maxPlayCount, isSingle) => {
         const canvas = document.getElementById('nort');
         const context = canvas.getContext('2d');
         const unit = 15;
@@ -181,7 +182,7 @@ class Game extends React.Component {
                 Player.allInstances.forEach(p => {
                     let time;
                     if(p.key) {
-                        if(this.state.timer === 0 && gameType) {
+                        if(this.state.timer === 0) {
                             time = setInterval(this.timer, 100);
                         }
                         p.direction = p.key;
@@ -210,7 +211,7 @@ class Game extends React.Component {
                     let outcome;
 
                     if (playerCount === maxPlayCount - 1) {
-                        if(gameType === "single") { // single player
+                        if(isSingle) { // single player
                             clearInterval(time);
                             outcome = `Game Over`;
                         } else { // multiplayer
@@ -271,7 +272,7 @@ class Game extends React.Component {
                         userId: userId,
                         verified: true
                     });
-                    this.loadGame(this.state.playerCount, this.state.gameType);
+                    this.loadGame(this.state.playerCount, this.state.isSingle);
                 }, 500);
             } else {
                 this.setState({
@@ -284,6 +285,7 @@ class Game extends React.Component {
     }
 
     render() {
+        const isSingle = this.state.isSingle;
         if(this.state.verified === true) {
             return(
                 <div>
@@ -291,6 +293,9 @@ class Game extends React.Component {
                         <div className="row">
                             <div className="col-2">
                                 <p className="text-white">Time: {this.state.timer}</p>
+                                {isSingle ? (
+                                    <Times></Times>
+                                ) : ( null )}
                             </div>
                             <div className="col">
                                 <canvas id="nort" width="750" height="750" style={this.nortStyle}></canvas>

@@ -19,7 +19,7 @@ class App extends React.Component {
           }/>
           <Route exact path="/game" component={GameMenu}/>
           <Route exact path="/game/s" render={
-            (props) => <Game {...props} type={'single'} difficulty={'test'} />
+            (props) => <Game {...props} isSingle={true} difficulty={'test'} />
           }/>
           <Route exact path="/settings" component={Settings}/>
           <Route exact path="/login" component={Login}/>

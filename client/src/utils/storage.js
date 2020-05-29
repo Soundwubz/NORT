@@ -42,19 +42,3 @@ export function verifyToken(url, obj) {
     };
   }
 }
-export function getUserId(token) {
-  if(token) {
-    const userId = fetch('/api/user?token=' + token).then(res => res.json()).then(json => {
-      if(json.success) {
-        return json.userId
-      } else {
-        console.log(json.error)
-        return null
-      }
-    });
-    return userId
-  } else {
-    console.error('No token provided');
-    return null
-  }
-}
