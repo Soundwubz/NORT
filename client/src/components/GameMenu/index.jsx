@@ -31,11 +31,11 @@ class GameMenu extends React.Component {
         if(this.state.verified === true){
             return(
                 <Menu>
-                    <MenuInput active={true} path="/game/d">
-                        Singleplayer
+                    <MenuInput path="/game/d">
+                        <h2>Singleplayer</h2>
                     </MenuInput>
-                    <MenuInput active={false} path="/">
-                        Back
+                    <MenuInput path="/">
+                        <h2>Back</h2>
                     </MenuInput>
                 </Menu>
             )

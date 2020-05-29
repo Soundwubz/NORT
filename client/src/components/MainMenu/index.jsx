@@ -32,10 +32,10 @@ class MainMenu extends React.Component {
             return(              
                 <Menu>
                     <MenuItem active={false} path="/game">
-                        play game
+                        <h2>Play Game</h2>
                     </MenuItem>
                     <MenuItem active={false} path="/settings">
-                        settings
+                        <h2>Settings</h2>
                     </MenuItem>
                 </Menu>
             )

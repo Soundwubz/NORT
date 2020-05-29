@@ -1,0 +1,17 @@
+.card {
+    background-color: black;
+}
+
+.menu-item {
+    font-family: monospace;
+    color: green;
+    border-color: green;
+    background-color: black;
+}
+.menu-item:hover {
+    cursor: pointer;
+}
+
+h2, h3 {
+    margin: 0;
+}

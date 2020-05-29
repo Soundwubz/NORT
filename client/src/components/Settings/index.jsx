@@ -31,13 +31,13 @@ class Settings extends React.Component {
             return (
                 <Menu>
                     <MenuItem active={false}>
-                        player color
+                        <h2>Player Color</h2>
                     </MenuItem>
                     <MenuItem active={false}>
-                        view controls
+                        <h2>View Controls</h2>
                     </MenuItem>
                     <MenuItem active={false} path={"/"}>
-                        back
+                        <h2>Back</h2>
                     </MenuItem>
                 </Menu>
             )

@@ -19,7 +19,7 @@ class MenuItem extends React.Component {
             return <Redirect to={this.state.path} />
         }
         return(
-            <li className="list-group-item text-center" onClick={this.handleClick}>
+            <li className="list-group-item text-center menu-item" onClick={this.handleClick}>
                 {this.props.active ? '>' + this.props.children : this.props.children}
             </li>
         )
