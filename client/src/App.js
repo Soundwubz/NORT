@@ -4,6 +4,7 @@ import Header from './components/Header';
 import MainMenu from './components/MainMenu';
 import Settings from './components/Settings';
 import Game from './components/Game';
+import SingleMenu from './components/GameMenu/SingleMenu'
 import GameMenu from './components/GameMenu';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -18,6 +19,7 @@ class App extends React.Component {
           <Route exact path="/" component={MainMenu}/>
           }/>
           <Route exact path="/game" component={GameMenu}/>
+          <Route exact path="/game/d" component={SingleMenu}/>
           <Route exact path="/game/s" render={
             (props) => <Game {...props} isSingle={true} difficulty={'test'} />
           }/>
