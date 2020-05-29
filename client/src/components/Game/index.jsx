@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import {getFromStorage, verifyToken} from '../../utils/storage';
 import Times from './Times';
+import queryString from 'query-string';
 
 class Player {
     constructor(x, y, color) {
@@ -31,7 +32,7 @@ class Game extends React.Component {
         userId: "",
         playerCount: 1,
         isSingle: this.props.isSingle,
-        difficulty: this.props.difficulty,
+        difficulty: "",
         timer: 0,
         navigate: false,
         verified: false
@@ -155,8 +156,20 @@ class Game extends React.Component {
         }
 
         let drawObstacles = (players) => {
+            let obstacleNum;
+            switch(this.state.difficulty) {
+                case "easy":
+                    obstacleNum = 15
+                    break;
+                case "normal":
+                    obstacleNum = 25
+                    break;
+                case "hard":
+                    obstacleNum = 35
+                    break;
+            }
             if(maxPlayCount === 1) {
-                for(let i = 0; i < 6; i++) {
+                for(let i = 0; i < obstacleNum; i++) {
                     let point = {
                         x: getRandCoord(),
                         y: getRandCoord()
@@ -211,7 +224,7 @@ class Game extends React.Component {
                     let outcome;
 
                     if (playerCount === maxPlayCount - 1) {
-                        if(isSingle) { // single player
+                        if(this.state.isSingle) { // single player
                             clearInterval(time);
                             outcome = `Game Over`;
                         } else { // multiplayer
@@ -238,7 +251,7 @@ class Game extends React.Component {
     }
 
     endGame = () => {
-        console.log(this.state.userId)
+        console.log(this.state.userId);
         let data = {
             userId: this.state.userId,
             time: this.state.timer,
@@ -251,7 +264,10 @@ class Game extends React.Component {
             },
             body: JSON.stringify(data)
         }).then(response => response.json()).then(data => {
-            this.setState({navigate: true});
+            console.log('hit');
+            setTimeout(() => {
+                this.setState({navigate: true});
+            }, 500);
         }).catch((error) => {
             console.error('Error:', error);
         })
@@ -259,6 +275,10 @@ class Game extends React.Component {
 
 
     componentDidMount() {
+        const query = queryString.parse(this.props.location.search);
+        this.setState({
+            difficulty: query.diff
+        });
         // verify token and set the global token state
         const obj = getFromStorage('nort');
         
@@ -286,7 +306,7 @@ class Game extends React.Component {
 
     render() {
         const isSingle = this.state.isSingle;
-        if(this.state.verified === true) {
+        if(this.state.verified === true && this.state.navigate === false) {
             return(
                 <div>
                     <div className="container game">
@@ -308,7 +328,12 @@ class Game extends React.Component {
             return ( 
                 <Redirect to={'/login'}/> 
             )
-        } else {
+        } else if(this.state.verified && this.state.navigate) {
+            return (
+                <Redirect to={'/game'}/>
+            )
+        }
+        else {
             return (
                 <h1>Loading</h1>
             )
