@@ -4,8 +4,8 @@ import React from "react";
 
 export function Input(props) {
   return (
-    <div className="form-group">
-      <input className="form-control" {...props} />
+    <div>
+      <input className="input" {...props} />
     </div>
   );
 }
@@ -20,7 +20,7 @@ export function TextArea(props) {
 
 export function FormBtn(props) {
   return (
-    <button {...props} className="btn btn-success">
+    <button {...props} className="btn form-btn bg-black">
       {props.children}
     </button>
   );

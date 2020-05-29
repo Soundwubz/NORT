@@ -13,6 +13,7 @@ class Header extends React.Component {
         const obj = getFromStorage('nort');
         const loggedOut = verifyToken('/api/logout?token=', obj);
         if(loggedOut) {
+            // add call to delete old session here
             this.setState({navigate: true});
         }
     }

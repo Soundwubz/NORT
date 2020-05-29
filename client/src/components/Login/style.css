@@ -1,0 +1,28 @@
+.input {
+    background-color: black;
+    color: lime;
+    font-family: monospace;
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid lime;
+    width: 100%;
+    border-radius: 5px;
+}
+input::placeholder {
+    color: green;
+}
+
+.form-btn {
+    margin-top: 10px;
+    color: lime;
+    border: 2px solid lime;
+}
+
+.form-btn:hover {
+    color: green;
+}
+
+h1 {
+    font-family: monospace;
+    color: lime;
+}

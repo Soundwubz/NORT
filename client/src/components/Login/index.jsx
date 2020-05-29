@@ -2,6 +2,7 @@ import React from 'react';
 import {Input, FormBtn} from '../Form';
 import {setInStorage} from '../../utils/storage';
 import { Redirect } from 'react-router-dom';
+import './style.css';
 
 class Login extends React.Component {
     state = {

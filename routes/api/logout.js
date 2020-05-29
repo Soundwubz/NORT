@@ -22,13 +22,11 @@ logoutRouter.get('/', (req,res,next) => {
           error: err
         });
       }
-
       return res.send({
         success: true,
         message: 'logout success'
       })
-    })
-
+    });
 });
 
 module.exports = logoutRouter;
