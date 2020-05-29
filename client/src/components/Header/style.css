@@ -9,5 +9,6 @@
 
 .logout {
     background-color: lime;
+    font-family: monospace;
     margin: 23px 0px;
 }

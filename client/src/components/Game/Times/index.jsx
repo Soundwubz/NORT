@@ -9,9 +9,12 @@ class Times extends React.Component {
 
     componentDidMount() {
         fetch('/api/game/time').then(res => res.json()).then(json => {
-            console.log(json);
+            let diffTimes = json.filter(time => time.difficulty === this.props.difficulty);
+            diffTimes.sort((x, y) => {
+                return y.time - x.time;
+            });
             this.setState({
-                timesList: json
+                timesList: diffTimes
             });
         })
     }

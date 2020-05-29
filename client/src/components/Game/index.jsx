@@ -42,7 +42,6 @@ class Game extends React.Component {
         const canvas = document.getElementById('nort');
         const context = canvas.getContext('2d');
         const unit = 15;
-        console.log(canvas);
 
         Player.allInstances = [];
 
@@ -124,7 +123,6 @@ class Game extends React.Component {
               context.strokeStyle = 'black';
               context.strokeRect(p.x, p.y, unit, unit);
             });
-            console.log(playableCells.size);
         };
         
         drawStartingPositions(Player.allInstances);
@@ -314,7 +312,7 @@ class Game extends React.Component {
                             <div className="col-2">
                                 <p className="text-white">Time: {this.state.timer}</p>
                                 {isSingle ? (
-                                    <Times></Times>
+                                    <Times difficulty={this.state.difficulty}></Times>
                                 ) : ( null )}
                             </div>
                             <div className="col">
