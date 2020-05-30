@@ -34,6 +34,8 @@ export function verifyToken(url, obj) {
                 success: false
               };
             }
+        }).catch((err) => {
+          console.error('verifyToken:',err);
         });
         return verified;
   } else {

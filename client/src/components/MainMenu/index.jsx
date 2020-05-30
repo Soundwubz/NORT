@@ -17,7 +17,7 @@ class MainMenu extends React.Component {
         const obj = getFromStorage('nort');
         if(verifyToken('/api/user/verify?token=', obj)) {
             this.setState({
-                token: obj.token,
+                token: obj.token ? obj.token : "",
                 verified: true
             });
         } else {
