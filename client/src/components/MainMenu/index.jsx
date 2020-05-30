@@ -27,6 +27,11 @@ class MainMenu extends React.Component {
                     navigate: true
                 });
             }
+        } else {
+            // redirect to login
+            this.setState({
+                navigate: true
+            })
         }
         
     }

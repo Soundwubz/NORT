@@ -38,6 +38,8 @@ class Login extends React.Component {
                     setInStorage('nort', { token: json.token });
                     this.setState({navigate: true});
                 }
+            }).catch(error => {
+                console.error('login error:', error);
             })
         }
     }
