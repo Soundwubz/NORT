@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/Soundwubz/NORT/issues"
   },
-  "homepage": "https://github.com/Soundwubz/NORT#readme",
+  "homepage": "https://nort-game.herokuapp.com/",
   "dependencies": {
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
