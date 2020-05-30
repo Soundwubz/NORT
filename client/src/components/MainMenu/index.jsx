@@ -14,12 +14,12 @@ class MainMenu extends React.Component {
 
     componentDidMount() {
         // verify token and set the global token state
-        try {
-            const obj = getFromStorage('nort');
+        const obj = getFromStorage('nort');
+        if(obj !== null) {
             if(verifyToken('/api/user/verify?token=', obj)) {
                 console.log('object token:', obj.token);
                 this.setState({
-                    token: obj.token ? obj.token : "",
+                    token: obj.token,
                     verified: true
                 });
             } else {
@@ -27,8 +27,6 @@ class MainMenu extends React.Component {
                     navigate: true
                 });
             }
-        } catch (error) {
-            console.error('MainMenu err:', error);
         }
         
     }
