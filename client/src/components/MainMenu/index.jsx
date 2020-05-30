@@ -14,17 +14,23 @@ class MainMenu extends React.Component {
 
     componentDidMount() {
         // verify token and set the global token state
-        const obj = getFromStorage('nort');
-        if(verifyToken('/api/user/verify?token=', obj)) {
-            this.setState({
-                token: obj.token ? obj.token : "",
-                verified: true
-            });
-        } else {
-            this.setState({
-                navigate: true
-            });
+        try {
+            const obj = getFromStorage('nort');
+            if(verifyToken('/api/user/verify?token=', obj)) {
+                console.log('object token:', obj.token);
+                this.setState({
+                    token: obj.token ? obj.token : "",
+                    verified: true
+                });
+            } else {
+                this.setState({
+                    navigate: true
+                });
+            }
+        } catch (error) {
+            console.error('MainMenu err:', error);
         }
+        
     }
 
     render() {
