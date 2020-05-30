@@ -1,6 +1,7 @@
 import React from 'react';
 import {Input, FormBtn} from '../Form';
 import { Redirect } from 'react-router-dom';
+import './style.css';
 
 class Signup extends React.Component {
     state = {
@@ -56,6 +57,7 @@ class Signup extends React.Component {
                 <div className="row">
                     <div className="col">
                         <h1>Sign Up</h1>
+                        <p>or <a href="/login">Login</a></p>
                         <form>
                             <Input
                                 value={this.state.username}

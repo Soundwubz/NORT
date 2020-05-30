@@ -53,6 +53,7 @@ class Login extends React.Component {
                 <div className="row">
                     <div className="col">
                         <h1>Login</h1>
+                        <p>or <a href="/signup">Signup</a></p>
                         <form>
                             <Input
                                 value={this.state.username}

@@ -26,3 +26,16 @@ h1 {
     font-family: monospace;
     color: lime;
 }
+
+p{
+    color: lime;
+    font-family: monospace;
+}
+
+a{
+    color: green;
+}
+
+a:hover {
+    color: greenyellow;
+}
