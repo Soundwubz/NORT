@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Add routes, both API and view
 app.use(routes);
 // Serve up static assets (usually on heroku)
-app.use(express.static(path.join(__dirname, '../build')))
+app.use('/relativepath', express.static(path.join(__dirname, '../build')))
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../build'))
 })
