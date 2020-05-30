@@ -28,9 +28,9 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('client/build'));
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.get('*', function(req, res) {
+  // res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
 
 // Add routes, both API and view
 app.use(routes);

@@ -23,7 +23,7 @@ export function setInStorage(key, obj) {
 export function verifyToken(url, obj) {
   if (obj && obj.token) {
         const {token} = obj;
-        const verified = fetch(url + token).then(json => {
+        const verified = fetch(url + token).then(res => res.json()).then(json => {
             if(json.success) {
                 return {
                   success: true,

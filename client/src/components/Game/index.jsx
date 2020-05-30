@@ -284,6 +284,7 @@ class Game extends React.Component {
         const obj = getFromStorage('nort');
         
         verifyToken('/api/user/verify?token=', obj).then(res => {
+            console.log('verifyToken res:',res);
             const {success, userId} = res;
             if(success) {
                 // load game board 
