@@ -19,7 +19,7 @@ if(PORT === 3001) {
   corsOpt = {origin: false}
 }
 // Define middleware here
-app.use(cors(corsOpt));
+// app.use(cors(corsOpt));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({ secret: "tron", resave: false, saveUninitialized: false, maxAge: 24 * 60 * 60 * 1000 }));
