@@ -35,7 +35,7 @@ app.use(express.static('client/build'));
 // Add routes, both API and view
 app.use(routes);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nort", { useFindAndModify: false });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nort", { useFindAndModify: false, useNewUrlParser: true });
 
 // Start the API server
 app.listen(PORT, function() {
